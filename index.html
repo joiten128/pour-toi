@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pour toi ❤️</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            background-color: #ffe6e6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Animation des "Je t'aime" */
+        .love-text {
+            position: absolute;
+            font-weight: bold;
+            color: #ff4d6d;
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            animation: fadeInOut 3s ease-in-out forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: scale(0.5); }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { opacity: 0; transform: scale(1.2); }
+        }
+
+        /* Boîte principale de la question */
+        .card {
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 10;
+            width: 85%;
+            max-width: 350px;
+            border: 2px solid #ffb3c1;
+        }
+
+        h1 {
+            color: #c9184a;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 60px;
+            position: relative;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        #yesBtn {
+            background-color: #ff4d6d;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        #noBtn {
+            background-color: #6c757d;
+            color: white;
+            position: absolute;
+            touch-action: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>Est-ce que tu m'aimes ? 🥺</h1>
+        <div class="buttons">
+            <button class="btn" id="yesBtn" onclick="alert('Moi aussi je t\'aime ! ❤️')">Oui</button>
+            <button class="btn" id="noBtn">Non</button>
+        </div>
+    </div>
+
+    <script>
+        const languages = [
+            "Je t'aime", "I love you", "Te amo", "Ich liebe dich", 
+            "Ti amo", "Eu te amo", "Я тебя люблю", "愛してる", 
+            "사랑해", "ฉันรักคุณ", "Seni seviyorum", "Volim te", 
+            "Amo-te", "Ik hou van jou", "Miluji tě"
+        ];
+
+        function createLoveText() {
+            const text = document.createElement('div');
+            text.classList.add('love-text');
+            text.innerText = languages[Math.floor(Math.random() * languages.length)];
+            
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 40);
+            const size = Math.random() * (1.5 - 0.8) + 0.8;
+            
+            text.style.left = `${x}px`;
+            text.style.top = `${y}px`;
+            text.style.fontSize = `${size}rem`;
+            
+            document.body.appendChild(text);
+            
+            setTimeout(() => {
+                text.remove();
+            }, 3000);
+        }
+
+        setInterval(createLoveText, 400);
+
+        const noBtn = document.getElementById('noBtn');
+
+        function moveButton() {
+            const padding = 20;
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+
+            randomX = Math.max(padding, randomX);
+            randomY = Math.max(padding, randomY);
+
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        noBtn.addEventListener('mouseenter', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+    </script>
+</body>
+</html>
